@@ -1,5 +1,4 @@
 from collections import deque
-
 from limit_order_book.order import Side
 
 
