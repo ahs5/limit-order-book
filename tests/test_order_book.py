@@ -81,3 +81,53 @@ def test_best_ask_none_ask():
     order_book = OrderBook()
 
     assert order_book.best_ask() is None
+
+def test_pop_best_bid():
+    order_1 = Order(1, Side.BUY, 100, 10)
+    order_book = OrderBook()
+    order_book.add_order(order_1)
+    returned_value = order_book.pop_best_bid()
+
+    assert returned_value == order_1
+    assert len(order_book.bids) == 0
+
+def test_pop_best_bid_multiple_orders():
+    order_1 = Order(1, Side.BUY, 100, 10)
+    order_2 = Order(2, Side.BUY, 100, 10)
+    order_book = OrderBook()
+    order_book.add_order(order_1)
+    order_book.add_order(order_2)
+    returned_value = order_book.pop_best_bid()
+
+    assert returned_value == order_1
+    assert len(order_book.bids) == 1
+    assert order_book.bids[order_2.price][0] == order_2
+
+def test_pop_best_ask():
+    order_1 = Order(1, Side.SELL, 100, 10)
+    order_book = OrderBook()
+    order_book.add_order(order_1)
+    returned_value = order_book.pop_best_ask()
+
+    assert returned_value == order_1
+    assert len(order_book.asks) == 0
+
+def test_pop_best_ask_multiple_orders():
+    order_1 = Order(1, Side.SELL, 100, 10)
+    order_2 = Order(2, Side.SELL, 100, 10)
+    order_book = OrderBook()
+    order_book.add_order(order_1)
+    order_book.add_order(order_2)
+    returned_value = order_book.pop_best_ask()
+
+    assert returned_value == order_1
+    assert len(order_book.asks) == 1
+    assert order_book.asks[order_2.price][0] == order_2
+
+def test_pop_best_ask_none_bid():
+    order_book = OrderBook()
+    assert order_book.pop_best_ask() is None
+
+def test_pop_best_bid_none_bid():
+    order_book = OrderBook()
+    assert order_book.pop_best_bid() is None

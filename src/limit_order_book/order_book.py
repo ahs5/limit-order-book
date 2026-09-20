@@ -32,3 +32,24 @@ class OrderBook:
             return self.asks[(min(self.asks))][0]
         else:
             return None
+
+    def pop_best_bid(self):
+        if len(self.bids) == 0:
+            return None
+        else:
+            best_price = max(self.bids)
+            removed_order = self.bids[best_price].popleft()
+            if len(self.bids[best_price]) == 0:
+                self.bids.pop(best_price)
+            return removed_order
+
+
+    def pop_best_ask(self):
+        if len(self.asks) == 0:
+            return None
+        else:
+            best_price = min(self.asks)
+            removed_order = self.asks[best_price].popleft()
+            if len(self.asks[best_price]) == 0:
+                self.asks.pop(best_price)
+            return removed_order
