@@ -11,7 +11,9 @@ A python implementation of a limit order book and matching engine using price ti
 - pytest test suite
 
 ## project structure 
+```text
 src/limit_order_book/
+    __init__.py
     order.py
     order_book.py
     matching_engine.py
@@ -22,7 +24,7 @@ tests/
     test_matching_engine.py
     test_order.py
     test_order_book.py
-
+```
 ## matching engine rules
 - highest bid has priority
 - lowest ask has priority
@@ -32,6 +34,7 @@ tests/
 - execution occurs at the resting order's price
 
 ## running
+cd src
 python -m limit_order_book
 
 ## testing
