@@ -1,10 +1,11 @@
 from limit_order_book.order import Side
 from limit_order_book.order_book import OrderBook
-
+from limit_order_book.trade import Trade
 
 class MatchingEngine:
     def __init__(self):
         self.order_book = OrderBook()
+        self.trades = []
 
     def process_order(self, order):
         while order.remaining_quantity > 0:
@@ -21,6 +22,8 @@ class MatchingEngine:
                         order.remaining_quantity,
                         resting_order.remaining_quantity
                     )
+                    trade = Trade(order.order_id, resting_order.order_id, resting_order.price, trade_quantity)
+                    self.trades.append(trade)
                     order.fill_order(trade_quantity)
                     resting_order.fill_order(trade_quantity)
                     if resting_order.remaining_quantity == 0:
@@ -38,6 +41,8 @@ class MatchingEngine:
                         order.remaining_quantity,
                         resting_order.remaining_quantity
                     )
+                    trade = Trade(resting_order.order_id, order.order_id, resting_order.price, trade_quantity)
+                    self.trades.append(trade)
                     order.fill_order(trade_quantity)
                     resting_order.fill_order(trade_quantity)
                     if resting_order.remaining_quantity == 0:

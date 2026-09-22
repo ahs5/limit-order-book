@@ -63,7 +63,7 @@ def test_engine_incoming_order():
     assert matching_engine.order_book.bids[order_1.price][0] == order_1
     assert len(matching_engine.order_book.asks) == 0
 
-def test_engine_incoming_order():
+def test_engine_multiple_resting_order():
     matching_engine = MatchingEngine()
     order_1 = Order(1, Side.BUY, 100, 2)
     order_2 = Order(1, Side.BUY, 100, 2)
@@ -78,7 +78,16 @@ def test_engine_incoming_order():
     assert matching_engine.order_book.asks[order_4.price][0] == order_4
     assert len(matching_engine.order_book.asks) == 1
 
+def test_engine_trades():
+    matching_engine = MatchingEngine()
+    order_1 = Order(1, Side.SELL, 100, 5)
+    order_2 = Order(1, Side.BUY, 105, 5)
+    matching_engine.process_order(order_1)
+    matching_engine.process_order(order_2)
 
+    assert len(matching_engine.trades) == 1
+    assert matching_engine.trades[0].buy_order_id == order_1.order_id
+    assert matching_engine.trades[0].sell_order_id == order_2.order_id
 
 
 
